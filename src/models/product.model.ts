@@ -1,8 +1,23 @@
-const { required } = require('joi')
-const mongoose = require('mongoose')
-const {Schema} = mongoose
+import mongoose,{Schema, Types} from "mongoose"
 
-const productSchema = new Schema({
+interface IProduct {
+    name:string
+    prodCode:string
+    buyingPrice: number,
+    sellingPrice:number
+    inStock:number
+    stockAlert:boolean
+    stockAlertLimit:number
+    units: string
+    sku:string
+    category:Types.ObjectId
+    discount:number
+    discountType: 'percent' | 'flat'
+    tax:number
+    imgUrl:string
+}
+
+const productSchema = new Schema<IProduct>({
     name :{
         type:String,
         required:true,
@@ -13,9 +28,13 @@ const productSchema = new Schema({
         required:true,
         unique:true,
     },
-    price : {
+    buyingPrice : {
         type:Number,
         required:true,
+    },
+    sellingPrice: {
+        type:Number,
+        required:true
     },
     inStock: {
         type:Number,
@@ -39,7 +58,8 @@ const productSchema = new Schema({
         unique:true,
     },
     category: {
-        type:String,
+        type:Schema.Types.ObjectId,
+        ref:'Category',
         required:true,
     },
     discount: {
@@ -51,7 +71,7 @@ const productSchema = new Schema({
         enum:['flat','percent'],
         default:'percent'
     },
-    taxes: {
+    tax: {
         type:Number,
         default:0,
     },
@@ -61,6 +81,6 @@ const productSchema = new Schema({
     }
 },{timestamps:true})
 
-const Product = mongoose.model('Product',productSchema)
+const Product = mongoose.model<IProduct>('Product',productSchema)
 
-module.exports = Product
+export default Product

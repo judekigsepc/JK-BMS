@@ -1,9 +1,19 @@
-const mongoose = require('mongoose')
-const {Schema} = mongoose
+import mongoose ,{ CallbackError, Schema,Types } from "mongoose"
 
 const {timeSetter} = require('../utils/util.js')
 
-const itemSubSchema = new Schema({
+interface IItem {
+  itemId:Types.ObjectId
+  name:string
+  itemQty:number
+  unitPrice:number
+  discount:number
+  discountType:'percent' | 'flat'
+  tax: number
+  subTotal: number
+}
+
+const itemSubSchema = new Schema<IItem>({
     itemId: {
         type:mongoose.Schema.Types.ObjectId,
         ref:'Product',
@@ -23,7 +33,7 @@ const itemSubSchema = new Schema({
         required:true,
     },
     discount:{
-        type:String,
+        type:Number,
         required:true,
         default:0
     },
@@ -32,7 +42,7 @@ const itemSubSchema = new Schema({
         required:true,
     },
     tax:{
-        type:String,
+        type:Number,
         required:true,
         default:0
     },
@@ -42,9 +52,24 @@ const itemSubSchema = new Schema({
     }
 })
 
-const transactionSchema = new Schema({
+interface ITransaction {
+  executor: Types.ObjectId
+  items : IItem []
+  transDate: Date
+  generalDiscount: number
+  generalTax: number
+  totalCostPrice:number
+  payedAmount:number
+  change:Number
+  paymentMethod: 'cash' | 'credit-card' | 'mobile-money' | 'bank-transfer'
+  type: 'purchase' | 'refund'
+  notes: string
+  invoiceUrl: string
+}
+
+const transactionSchema = new Schema<ITransaction>({
     executor: {
-    type: mongoose.Types.ObjectId,
+    type: Schema.Types.ObjectId,
     ref: 'User',
     required: true,
    },
@@ -53,11 +78,11 @@ const transactionSchema = new Schema({
       type: Date,
     },
     generalDiscount: {
-      type: String,
+      type: Number,
       default: 0,
     },
     generalTax: {
-      type: String,
+      type: Number,
       default: 0,
     },
     totalCostPrice: {
@@ -75,7 +100,7 @@ const transactionSchema = new Schema({
     },
     paymentMethod: {
       type: String,
-      enum: ['Cash', 'Credit Card', 'Mobile Money', 'Bank Transfer'],
+      enum: ['cash', 'credit-card', 'mobile-money', 'bank-transfer'],
       required: true,
     },
     type:{
@@ -98,11 +123,11 @@ transactionSchema.pre('save', async function (next) {
         const time = await timeSetter()
         this.transDate = time
         next()
-    }catch(err){
-       next(err)
+    }catch(err: CallbackError | unknown){
+        next(err as CallbackError)
     }
 })
 
-const Transaction = mongoose.model('Transaction',transactionSchema)
+const Transaction = mongoose.model<ITransaction>('Transaction',transactionSchema)
 
 module.exports = Transaction

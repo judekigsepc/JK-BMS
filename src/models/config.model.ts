@@ -1,7 +1,16 @@
-const mongoose = require('mongoose')
-const {Schema} = require('mongoose')
+import mongoose,{Schema} from "mongoose"
 
-const configSchema = Schema({
+interface Config {
+          currency:string
+          globalStockAlert:boolean
+          globalStockAlertLimit:number
+          debugMode: boolean
+          emailText:string
+          invoiceMessage:string
+}
+
+
+const configSchema = new Schema<Config>({
     currency: {
         type:String,
         default:'UGX',
@@ -30,4 +39,4 @@ const configSchema = Schema({
 
 const Config = mongoose.model('Config', configSchema)
 
-module.exports = Config
+export default Config

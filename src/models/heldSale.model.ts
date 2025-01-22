@@ -1,7 +1,20 @@
-const { required } = require('joi')
-const mongoose = require('mongoose')
 
-const prodSubSchema = new mongoose.Schema({
+import mongoose,{Schema, Types} from "mongoose"
+
+interface IProduct {
+    prodId:Types.ObjectId
+    qty:number
+}
+interface IHeldSale {
+          identifier: string
+          products : IProduct []
+          collections: Types.ObjectId []
+          executor: Types.ObjectId
+          reason: string
+}
+
+
+const prodSubSchema = new Schema<IProduct>({
     prodId: {
         type:mongoose.Schema.Types.ObjectId,
         ref:'Product',
@@ -12,7 +25,8 @@ const prodSubSchema = new mongoose.Schema({
         required:true
     }
 })
-const saleHoldSchema = mongoose.Schema({
+
+const saleHoldSchema = new Schema<IHeldSale>({
     identifier:{
         type: String,
         required: true
@@ -32,15 +46,11 @@ const saleHoldSchema = mongoose.Schema({
     reason : {
         type:String,
         default:'No reason specified'
-    },
-    status: {
-        type:String,
-        enum: ['held','resumed'],
     }
 },{timestamps:true})
 
 
-const HeldSale = mongoose.model('heldSale',saleHoldSchema)
+const HeldSale = mongoose.model<IHeldSale>('heldSale',saleHoldSchema)
 
-module.exports = HeldSale
+export default HeldSale
 

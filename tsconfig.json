@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "strict": true,                // Enables all strict type-checking options
+    "noImplicitAny": true,         // Raise an error on variables with an implicit `any` type
+    "strictNullChecks": true,      // Ensure `null` and `undefined` are handled explicitly
+    "strictBindCallApply": true,   // Check argument types for `.bind`, `.call`, and `.apply`
+    "noImplicitThis": true,        // Raise an error on `this` having an implicit `any` type
+    "alwaysStrict": true,          // Parse in strict mode and emit `"use strict"`
+    "strictFunctionTypes": true,   // Enforces stricter checking of function types
+    "strictPropertyInitialization": true, // Ensure class properties are initialized in the constructor
+    "noUnusedLocals": true,        // Error on unused local variables
+    "noUnusedParameters": true,    // Error on unused parameters in functions
+    "noImplicitReturns": true,     // Ensure all code paths in a function return a value
+    "noFallthroughCasesInSwitch": true, // Error on fallthrough cases in switch statements
+    "exactOptionalPropertyTypes": true // Ensure optional properties are strictly typed
+  }
+}
