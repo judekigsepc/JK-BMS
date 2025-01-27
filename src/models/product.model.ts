@@ -1,9 +1,9 @@
 import mongoose,{Schema, Types} from "mongoose"
 
-interface IProduct {
+export interface IProduct {
     name:string
     prodCode:string
-    buyingPrice: number,
+    buyingPrice: number
     sellingPrice:number
     inStock:number
     stockAlert:boolean
@@ -15,6 +15,7 @@ interface IProduct {
     discountType: 'percent' | 'flat'
     tax:number
     imgUrl:string
+    forBusiness: Types.ObjectId
 }
 
 const productSchema = new Schema<IProduct>({
@@ -78,6 +79,10 @@ const productSchema = new Schema<IProduct>({
     imgUrl: {
         type:String,
         default:""
+    },
+    forBusiness: {
+        type:Schema.Types.ObjectId,
+        required:true
     }
 },{timestamps:true})
 

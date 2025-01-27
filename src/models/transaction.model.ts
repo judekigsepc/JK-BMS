@@ -65,6 +65,7 @@ interface ITransaction {
   type: 'purchase' | 'refund'
   notes: string
   invoiceUrl: string
+  forBusiness: Types.ObjectId
 }
 
 const transactionSchema = new Schema<ITransaction>({
@@ -116,6 +117,11 @@ const transactionSchema = new Schema<ITransaction>({
       type:String,
       default:'',
     },
+    forBusiness: {
+      type:Schema.Types.ObjectId,
+      required:true
+  }
+   
   },{timestamps:true});
   
 transactionSchema.pre('save', async function (next) {
@@ -130,4 +136,4 @@ transactionSchema.pre('save', async function (next) {
 
 const Transaction = mongoose.model<ITransaction>('Transaction',transactionSchema)
 
-module.exports = Transaction
+export default Transaction

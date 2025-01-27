@@ -5,12 +5,13 @@ interface IProduct {
     prodId:Types.ObjectId
     qty:number
 }
-interface IHeldSale {
+export interface IHeldSale {
           identifier: string
           products : IProduct []
           collections: Types.ObjectId []
           executor: Types.ObjectId
           reason: string
+          forBusiness: Types.ObjectId
 }
 
 
@@ -46,6 +47,10 @@ const saleHoldSchema = new Schema<IHeldSale>({
     reason : {
         type:String,
         default:'No reason specified'
+    },
+    forBusiness: {
+        type:Schema.Types.ObjectId,
+        required:true
     }
 },{timestamps:true})
 

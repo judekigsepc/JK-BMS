@@ -1,6 +1,6 @@
 import mongoose,{Schema, Types} from "mongoose"
 
-interface IUser {
+export interface IUser {
          firstName: string
          lastName:string
          sex: 'male' | 'female'

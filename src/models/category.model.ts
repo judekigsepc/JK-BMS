@@ -1,13 +1,18 @@
-import mongoose,{Schema} from "mongoose"
+import mongoose,{Schema,Types} from "mongoose"
 
 interface ICategory {
    name:string
+   forBusiness: Types.ObjectId
 }
 
 const categorySchema = new Schema<ICategory>({
      name:{
         type: String,
         required:true
+     },
+     forBusiness: {
+      type: Schema.Types.ObjectId,
+      required:true
      }
 })
 

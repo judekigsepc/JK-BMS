@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "esModuleInterop": true,
     "strict": true,                // Enables all strict type-checking options
     "noImplicitAny": true,         // Raise an error on variables with an implicit `any` type
     "strictNullChecks": true,      // Ensure `null` and `undefined` are handled explicitly

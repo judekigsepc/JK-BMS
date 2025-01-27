@@ -1,16 +1,17 @@
-import mongoose,{Schema} from "mongoose"
+import mongoose,{Schema,Types} from "mongoose"
 
-interface Config {
+interface IConfig {
           currency:string
           globalStockAlert:boolean
           globalStockAlertLimit:number
           debugMode: boolean
           emailText:string
           invoiceMessage:string
+          forBusiness: Types.ObjectId
 }
 
 
-const configSchema = new Schema<Config>({
+const configSchema = new Schema<IConfig>({
     currency: {
         type:String,
         default:'UGX',
@@ -35,6 +36,10 @@ const configSchema = new Schema<Config>({
         type:String,
         default:'Thank you for shopping with uss'
     },
+    forBusiness: {
+        type:Schema.Types.ObjectId,
+        required:true
+    }
 })
 
 const Config = mongoose.model('Config', configSchema)

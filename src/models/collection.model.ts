@@ -1,12 +1,13 @@
 import mongoose,{Schema, Types} from "mongoose"
 
-interface ICollection {
+export interface ICollection {
     name:string
     collectionCode:string
     items: Types.ObjectId []
     color:string
     description:string
     inStock:string
+    forBusiness: Types.ObjectId
 }
 
 const collectionSchema = new Schema<ICollection>({
@@ -30,7 +31,12 @@ const collectionSchema = new Schema<ICollection>({
     description: {
         type:String,
         default:'This is a category'
+    },
+    forBusiness: {
+        type:Schema.Types.ObjectId,
+        required:true
     }
+
 },{timestamps: true})
 
 const Collection = mongoose.model<ICollection>('Collection',collectionSchema)
